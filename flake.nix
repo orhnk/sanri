@@ -30,24 +30,28 @@
       jdk-custom = pkgs.jdk17;
       android-sdk-custom = android-pkgs.sdk (sdkPkgs:
         with sdkPkgs; [
+          # List options: `nix flake show github:tadfisher/android-nixpkgs`
           cmdline-tools-latest
           build-tools-34-0-0
           platform-tools
           platforms-android-34
+          system-images-android-24-google-apis-x86
           emulator
         ]);
     in {
       devShell = with pkgs;
         mkShell rec {
-          JAVA_HOME = jdk-custom;
-          ANDROID_HOME = "${android-sdk-custom}/share/android-sdk";
-          ANDROID_SDK_HOME = "${android-sdk-custom}/share/android-sdk";
-          ANDROID_SDK_ROOT = "${android-sdk-custom}/libexec/android-sdk";
+          # JAVA_HOME = jdk-custom;
+          # ANDROID_HOME = "${android-sdk-custom}/share/android-sdk";
+          # ANDROID_SDK_HOME = "${android-sdk-custom}/share/android-sdk"; # Deprecated Use ANDROID_HOME instead
+          # ANDROID_SDK_ROOT = "${android-sdk-custom}/share/android-sdk";
+          # ANDROID_SDK_ROOT = "${android-sdk-custom}/libexec/android-sdk";
           CHROME_EXECUTABLE = "${pkgs.chromium}/bin/chromium";
           buildInputs = [
             flutter
             android-sdk-custom
             jdk-custom
+            gradle
           ];
         };
     });
